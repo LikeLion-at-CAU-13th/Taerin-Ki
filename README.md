@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Taerin-Ki
 =======
 <div align="center">
@@ -44,4 +43,3 @@
 <div align="center">
   <img src="https://capsule-render.vercel.app/api?type=waving&color=0:FFB6A3,100:DC143C&fontColor=FFDAE5&height=200&section=footer">
 </div>
->>>>>>> 1fe808b95519b449a5f7339fb04c784a0d572365
