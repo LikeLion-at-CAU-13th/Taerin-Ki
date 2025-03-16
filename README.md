@@ -19,7 +19,7 @@
     <tr>
       <th> <img src="https://github.com/user-attachments/assets/6dc25115-90cd-4599-991a-c4b170852d5e" width="15"> Chung-Ang Univ. </th>
       <td align="center"> Industrial Security 10th </td>
-      <td align="center"> 2024.2~ <img src="https://github.com/user-attachments/assets/e4c13cdd-3625-4f95-bd36-929b172b014a" width="15"></td>
+      <td align="center"> 2024.3~ <img src="https://github.com/user-attachments/assets/e4c13cdd-3625-4f95-bd36-929b172b014a" width="15"></td>
     </tr>
   </table>
 </div><br>
