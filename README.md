@@ -1,4 +1,3 @@
-git-session branch
 <div align="center">
   <img src="https://capsule-render.vercel.app/api?type=venom&color=0:FFB6A3,100:DC143C&fontColor=FFDAE5&height=300&section=header&text=Taerin-Ki&fontSize=90"/>
 </div>
