@@ -1,0 +1,127 @@
+body {
+
+    .font-color-white {
+        color: white;
+    }
+
+    .top-banner {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color:orange;
+        padding: 7px;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        box-sizing: border-box;
+        font-weight: 700;
+        font-size: 13px;
+    }
+
+    .title {
+        font-family: "Rubik Mono One", monospace;
+        font-size: 50px;
+        font-weight: 400;
+        font-style: normal;
+        text-align: center;
+    }
+
+    .title-1 {
+        font-family: "Rubik Mono One", monospace;
+        font-size: 20px;
+        font-weight: 400;
+        font-style: normal;
+        text-align: center;
+    }
+
+    .menu {
+        display: flex;
+        justify-content: space-around;
+        font-family: "Montserrat", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+    }
+
+    .menu ul {
+        list-style: none; /* 불릿 없앰 */
+        padding: 0;
+        margin: 0;
+        display: inline-flex;
+        justify-content: space-around;
+    }
+
+    .menu li {
+        padding: 10px;
+    }
+
+    .menu a {
+        text-decoration: none;  /* a태그 밑줄 제거 */
+        font-weight: 700;
+        font-size: 17px;
+        color:darkblue;
+    }
+
+    .my-pic {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .my-pic img {
+        width: 400px;
+    }
+
+    .pic {
+        display: flex;
+        justify-content: center;
+    }
+
+    .pic img {
+        width: 800px;
+    }
+
+    .pic-small {
+        display: flex;
+        justify-content: center;
+    }
+
+    .pic-small img {
+        width: 200px;
+    }
+
+    .sub-title {
+        text-align: center;
+        font-family: "Oleo Script", system-ui;
+        font-size: 30px;
+        font-weight: 700;
+        font-style: normal;
+        color: orange;
+    }
+
+    .content {
+        text-align: center;
+    }
+
+    .list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+    }
+
+    .content-big {
+        text-align: center;
+        font-size: 35px;
+        font-weight: 700;
+    }
+
+    .logo {
+        display: flex;
+        justify-content: center;
+    }
+
+    .logo img {
+        width: 400px;
+    }
+}
