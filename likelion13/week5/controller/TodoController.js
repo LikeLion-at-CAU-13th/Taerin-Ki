@@ -42,6 +42,8 @@ class TodoController {
         if (this.innerNode.classList.contains('done-text')) {
             const completeController = new CompleteController(this.innerNode.innerText);
             completeController.addComplete(); // Complete List에 추가
+
+            this.delTodo(); // To-Do List에서 삭제
         }
     }
 }
