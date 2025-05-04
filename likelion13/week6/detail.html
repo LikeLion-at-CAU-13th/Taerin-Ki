@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>더보기 - 사진 상세정보</title>
+    <link rel="stylesheet" href="global.css">
+    <style>
+        #detail-container {
+            width: 80%;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .info {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="detail-container">
+        <img id="detail-image" src="" alt="사진">
+        <div class="info" id="title"></div>
+        <div class="info" id="location"></div>
+        <div class="info" id="date"></div>
+        <div class="info" id="photographer"></div>
+        <div class="info" id="keywords"></div>
+    </div>
+    <script>
+        // sessionStorage에서 데이터 로드
+        const data = JSON.parse(sessionStorage.getItem('photoData'));
+
+        if (data) {
+            // 이미지
+            document.getElementById('detail-image').src = data.galWebImageUrl;
+            // 제목
+            document.getElementById('title').innerText = `제목: ${data.galTitle}`;
+            // 장소
+            document.getElementById('location').innerText = `장소: ${data.galPhotographyLocation}`;
+            // 날짜
+            const date = data.galCreatedtime;
+            const formattedDate = `${date.slice(2,4)}/${date.slice(4,6)}/${date.slice(6,8)}`;
+            document.getElementById('date').innerText = `날짜: ${formattedDate}`;
+            // 촬영자
+            document.getElementById('photographer').innerText = `촬영자: ${data.galPhotographer || '정보 없음'}`;
+            // 키워드
+            document.getElementById('keywords').innerText = `키워드: ${data.galSearchKeyword || '정보 없음'}`;
+            /* API 응답에서 특정 사진의 정보가 없거나 비어 있을 경우에
+            사용자에게 "데이터가 없다"는 것을 알려주기 위해 '또는' 뒤에 '정보 없음' 삽입 */
+        }
+    </script>
+</body>
+</html>
