@@ -1,0 +1,9 @@
+.virus-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.virus {
+    height: 500px;
+}
