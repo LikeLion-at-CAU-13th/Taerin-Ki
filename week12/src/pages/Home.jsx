@@ -9,6 +9,9 @@ const Home = () => {
         <StyledLink to="/books">
         Book List 📖
         </StyledLink>
+        <StyledLink to="/quiz">
+        Quiz ❓
+        </StyledLink>
     </MenuDom>
   )
 }

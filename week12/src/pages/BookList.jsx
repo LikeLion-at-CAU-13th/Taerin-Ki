@@ -55,6 +55,7 @@ const Title = styled.div`
   font-size: 40px;
   color: #535353;
   font-weight: 700;
+  cursor: ${(props) => (props.onClick ? 'pointer' : 'default')};
 `;
 
 const BookListDom = styled.div`
