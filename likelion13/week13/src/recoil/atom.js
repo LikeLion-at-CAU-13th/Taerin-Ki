@@ -14,3 +14,13 @@ export const isSubmittedAtom = atom ({
     key: "isSubmitted",
     default: false,
 });
+
+export const favoriteSeasonAtom = atom({
+    key: "favoriteSeason",
+    default: "봄",
+});
+
+export const phoneNumAtom = atom({
+    key: "phoneNum",
+    default: "",
+});
