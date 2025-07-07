@@ -2,47 +2,43 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import { signup } from '../apis/user';
+import { useForm } from '../hooks/useForm';
 
 const Signup = () => {
-  const [id, setId] = useState();
-  const [pw, setPw] = useState();
-  const [name, setName] = useState();
-  const [age, setAge] = useState();
+  const [id, onChangeId] = useForm();
+  const [pw, onChangePw] = useForm();
+  const [name, onChangeName] = useForm();
+  const [age, onChangeAge] = useForm();
+
   const navigate = useNavigate();
 
-  const onChangeId = (e) => {
-    setId(e.target.value);
-  }
-  const onChangePw = (e) => {
-    setPw(e.target.value);
-  }
-  const onChangeName = (e) => {
-    setName(e.target.value);
-  }
-  const onChangeAge = (e) => {
-    setAge(Number(e.target.value));
-  }
-  
   const onClick = async () => {
-    await signup(id, pw,name, age);
-    alert("회원가입이 완료되었습니다!")
-    navigate("/")
-  }
+    if (!id || !pw || !name || !age) {
+      alert("모든 항목을 입력해주세요!");
+      return;
+    }
 
+    try {
+      await signup(id, pw, name, age);
+      alert("회원가입이 완료되었습니다! Welcome 🙌🏻");
+      navigate("/");
+    } catch (error) {
+      alert("회원가입에 실패하였습니다.");
+    }
+  };
 
   return (
     <Wrapper>
       <Title>회원가입</Title>
       <Inputs>
-      <div>아이디</div>
-      <input value={id} onChange={onChangeId} />
-      <div>비밀번호</div>
-      <input value={pw} onChange={onChangePw} />
-      <div>이름</div>
-      <input value={name} onChange={onChangeName} />
-      <div>나이</div>
-      <input type="number" value={age} onChange={onChangeAge} />
-
+        <div>아이디</div>
+        <input value={id} onChange={onChangeId} />
+        <div>비밀번호</div>
+        <input value={pw} onChange={onChangePw} />
+        <div>이름</div>
+        <input value={name} onChange={onChangeName} />
+        <div>나이</div>
+        <input type="number" value={age} onChange={onChangeAge} />
       </Inputs>
       <button onClick={onClick}>가입하기</button>
     </Wrapper>

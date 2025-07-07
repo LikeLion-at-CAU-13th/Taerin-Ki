@@ -1,15 +1,20 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import { useForm } from '../hooks/useForm';
 import { login } from '../apis/user';
 
-
 const Home = () => {
   const [id, onChangeId] = useForm();
   const [pw, onChangePw] = useForm();
-
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("access");
+    if (token) {
+      navigate("/mypage");
+    }
+  }, []);
 
   const onClick = async () => {
     try {
@@ -19,7 +24,7 @@ const Home = () => {
       localStorage.setItem("refresh", result.refreshToken)
       navigate("/mypage");
     } catch(error) {
-      alert("id나 pw를 확인하세요")
+      alert("id나 pw를 확인하세요.")
     }
   };
 

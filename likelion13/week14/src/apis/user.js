@@ -21,14 +21,11 @@ export const login = async (id, pw) => {
     return result.data;
 }
 
-
-
-export const getMyPage = async (token) => {
-    const authAxios = getAuthAxios(token);
+export const getMyPage = async (token, navigate) => {
+    const authAxios = getAuthAxios(token, navigate);
     const result  = authAxios.get("/accounts/mypage");
     return result;
 }
-
 
 //리프레쉬 토큰 API 
 export const getNewRefreshToken = async () => {
@@ -43,12 +40,12 @@ export const getNewRefreshToken = async () => {
             },
             {
                 headers: {
-                    Authorization: `Bearer ${accessToken}` 
+                    Authorization: `Bearer ${accessToken || ''}` 
                 },
             }
         );
         return result.data
     } catch (error) {
-        alert("토큰이 만료되었습니다. 다시 로그인해주세요")
+        alert("토큰이 만료되었습니다. 다시 로그인해주세요.")
     }
 }
