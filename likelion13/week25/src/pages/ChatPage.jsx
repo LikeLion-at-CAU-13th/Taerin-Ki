@@ -7,7 +7,62 @@ import Loader from "../components/Loader";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { motion } from "framer-motion";
 
-// 작성해야 함.
+const ChatPage = () => {
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState(""); // input = 사용자가 입력창에 입력한 텍스트
+  const [loading, setLoading] = useState(false);
+
+  const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+
+  const handleSend = async () => {
+    if (!input.trim()) return;  // 빈 메시지 방지
+
+    const userMsg = { role: "user", content: input };
+    setMessages((prev) => [...prev, userMsg]);
+    setInput("");
+    setLoading(true);
+
+    try {
+      const result = await model.generateContent(input);
+      const text = result.response?.text() ?? "응답이 없습니다.";
+      const aiMsg = { role: "assistant", content: text };
+      setMessages((prev) => [...prev, aiMsg]);
+    } catch (err) {
+        console.error(err);
+        setMessages((prev) => [
+          ...prev,
+          { role: "assistant", content: "오류가 발생했습니다. 다시 시도해주세요." },
+        ]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <PageWrapper>
+      <ChatCard
+        initial = {{ opacity: 0, y: 40}}
+        animate = {{ opacity: 1, y: 0}}
+        transition = {{ duration: 0.6 }}>
+        <Header />
+        <Messages>
+          {messages.map((m, i) => (
+            <ChatMessage key={i} role={m.role} content={m.content} />
+          ))}
+          {loading && <Loader />}
+        </Messages>
+        <ChatInput
+          value={input}
+          onChange={setInput}
+          onSend={handleSend}
+        />
+      </ChatCard>
+    </PageWrapper>
+  );
+};
+
+export default ChatPage;
 
 const PageWrapper = styled.div`
   display: flex;
