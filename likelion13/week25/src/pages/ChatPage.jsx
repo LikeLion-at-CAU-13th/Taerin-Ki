@@ -4,39 +4,63 @@ import Header from "../components/Header";
 import ChatMessage from "../components/ChatMessage";
 import ChatInput from "../components/ChatInput";
 import Loader from "../components/Loader";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+// import { GoogleGenerativeAI } from "@google/generative-ai";
 import { motion } from "framer-motion";
+
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
 
 const ChatPage = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState(""); // input = 사용자가 입력창에 입력한 텍스트
   const [loading, setLoading] = useState(false);
 
-  const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+  // 안 쓸 거니까 삭제띠
+  // const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
+  // const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
+  // AI 응답 요청 함수로 분리
+  const fetchAIResponse = async (text) => {
+    // Gemini API 요청 형식에 맞게 body 구성
+    const requestBody = {
+      contents: [{ parts: [{ text }] }],
+    };
+
+    try {
+      const response = await fetch(URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestBody),
+      });
+
+      const data = await response.json();
+      // AI 응답 text 추출, 없으면 기본 메시지 반환
+      return data.candidates?.[0]?.content?.parts[0]?.text || "응답이 없습니다.";
+    } catch (err) {
+      console.error(err);
+      return "오류가 발생했습니다. 다시 시도해주세요.";
+    }
+  };
+
+  // 전송 버튼 클릭 또는 Enter 키 입력 시 호출됨
   const handleSend = async () => {
-    if (!input.trim()) return;  // 빈 메시지 방지
+    if (!input.trim()) return;  // 빈 메시지 전송 방지
 
+    // 사용자 메시지 추가
     const userMsg = { role: "user", content: input };
     setMessages((prev) => [...prev, userMsg]);
+
+    // 입력창 초기화 및 로딩 시작
     setInput("");
     setLoading(true);
 
-    try {
-      const result = await model.generateContent(input);
-      const text = result.response?.text() ?? "응답이 없습니다.";
-      const aiMsg = { role: "assistant", content: text };
-      setMessages((prev) => [...prev, aiMsg]);
-    } catch (err) {
-        console.error(err);
-        setMessages((prev) => [
-          ...prev,
-          { role: "assistant", content: "오류가 발생했습니다. 다시 시도해주세요." },
-        ]);
-    } finally {
-      setLoading(false);
-    }
+    // AI 응답 요청 후 메시지 추가
+    const aiText = await fetchAIResponse(input);
+    const aiMsg = { role: "assistant", content: aiText };
+    setMessages((prev) => [...prev, aiMsg]);
+
+    // 로딩 종료
+    setLoading(false);
   };
 
   return (
