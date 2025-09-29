@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
 import ChatMessage from "../components/ChatMessage";
@@ -18,6 +18,9 @@ const ChatPage = () => {
   // 안 쓸 거니까 삭제띠
   // const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
   // const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+
+  // 메시지 컨테이너
+  const messagesEndRef = useRef(null);
 
   // AI 응답 요청 함수로 분리
   const fetchAIResponse = async (text) => {
@@ -63,6 +66,12 @@ const ChatPage = () => {
     setLoading(false);
   };
 
+  // 자동 스크롤: messages나 loading이 바뀔 때마다 scrollIntoView 호출
+  // → 새 메시지가 들어오거나 AI 응답이 완료되면 자동으로 스크롤이 내려감
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
+
   return (
     <PageWrapper>
       <ChatCard
@@ -75,6 +84,8 @@ const ChatPage = () => {
             <ChatMessage key={i} role={m.role} content={m.content} />
           ))}
           {loading && <Loader />}
+          {/* 자동 스크롤용 더미 div */}
+          <div ref={messagesEndRef} />
         </Messages>
         <ChatInput
           value={input}
