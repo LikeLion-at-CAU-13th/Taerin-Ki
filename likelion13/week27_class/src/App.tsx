@@ -1,11 +1,17 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useMovieSearch } from './hooks/useMovieSearch';
 import MovieCard from './components/MovieCard';
 import styled from 'styled-components';
+import SortButtons from './components/SortButtons';
+import { type SortOption } from './types/movie.types';
+import { sortMovies } from './utils/sortMovies';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const { movies, status, error } = useMovieSearch(searchQuery);
+  const [currentSort, setCurrentSort] = useState<SortOption>('popularity');
+
+  const sortedMovies = useMemo(() => sortMovies(movies ?? [], currentSort), [movies, currentSort]);
 
   const handleMovieSelect = (id: number): void => {
     console.log('선택한 영화 ID:', id);
@@ -30,6 +36,10 @@ function App() {
         <SearchInput type="text" value={searchQuery} onChange={handleSearchChange} placeholder='영화 제목을 입력하세요...' />
       </Search>
 
+      <div>
+        <SortButtons currentSort={currentSort} onSortChange={setCurrentSort} />
+      </div>
+
       {/* 상태별 UI */}
       <Content>
         {/* 로딩 */}
@@ -48,13 +58,13 @@ function App() {
         {/* 영화 목록 */}
           {status === 'success' && movies.length > 0 && (
             <>
-              {movies.length > 0 ? (
+              {sortedMovies.length > 0 ? (
                 <>
                   <div>
-                    <Result>총 {movies.length}개의 영화를 찾았습니다.</Result>
+                    <Result>총 {sortedMovies.length}개의 영화를 찾았습니다.</Result>
                   </div>
                   <MovieGrid>
-                    {movies.map((movie) => (
+                    {sortedMovies.map((movie) => (
                       <MovieCard key={movie.id} movie={movie} onSelect={handleMovieSelect} />
                     ))}
                   </MovieGrid>
